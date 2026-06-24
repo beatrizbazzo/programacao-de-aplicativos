@@ -3,7 +3,7 @@ altura = float(input("digite sua altura: "))
 ano_atual = 2026
 anonascimento = int(input("digite seu ano de nascimento: "))
 idade = ano_atual - anonascimento
-informatica = input("estuda informmatica? (s/n): ")
+informatica = input("estuda informatica? (s/n): ")
 print("-----INFORMAÇÕES ALUNO(A)------")
 print("NOME:", nome)
 print("ALTURA:", altura)

@@ -6,11 +6,11 @@ faltas = int(input("Digite seu número total de faltas: "))
 if faltas > 15:
     print("Reprovado por Faltas.")
 
-if faltas <= 15:
+elif faltas <= 15:
     if media >= 7:
         print("Aprovado com Sucesso!")
     elif media > 5:
         print("Recuperação.")
 
-else:
-    print("Reprovado por Nota!") 
+    else:
+        print("Reprovado por Nota!")  
