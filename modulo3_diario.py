@@ -1,8 +1,8 @@
 turma = []
 opcao = 0
 
-while opcao != 3: # enquanto
-    print("/n--- MENU---") 
+while opcao != 3: #while enquanto
+    print("\n--- MENU---") 
     print("1. adicionar aluno")
     print("2. mostrar turma")
     print("3. sair")
@@ -11,7 +11,7 @@ while opcao != 3: # enquanto
 
     if opcao == 1:
         nome = input("digite o nome do aluno: ")
-        turma.append(nome) # Adicionando o nome na lista
+        turma.append(nome) #append Adicionando o nome na lista
         print("aluno adicionado com sucesso!")
         
     elif opcao == 2:
