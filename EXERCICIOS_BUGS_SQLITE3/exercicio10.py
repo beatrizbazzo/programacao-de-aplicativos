@@ -14,8 +14,6 @@ def deletar_escola_antiga():
 
 # CODIGO CORRIGIDO
 
-import sqlite3
-
 def deletar_escola_antiga():
     id_escola = int(input("ID da escola a remover: "))
     conexao = sqlite3.connect('sistema_escola.db')

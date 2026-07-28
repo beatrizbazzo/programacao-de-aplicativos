@@ -20,8 +20,6 @@ def criar_tabelas():
 
 # CODIGO CORRIGIDO
 
-import sqlite3
-
 def criar_tabela():
     conexao = sqlite3.connect('sistema_escola.db')
     cursor = conexao.cursor()

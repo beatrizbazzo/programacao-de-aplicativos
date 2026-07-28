@@ -16,8 +16,6 @@ def cadastrar_professsor(nome, cpf):
 
 # CODIGO CORRIGIDO 
 
-import sqlite3
-
 def cadastrar_professsor(nome, cpf):
     conexao = sqlite3.connect('sistema_escola.db')
     cursor = conexao.cursor()

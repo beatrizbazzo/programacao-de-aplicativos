@@ -18,9 +18,6 @@ def cadastrar_serie(nome_serie, id_escola):
 
 # COGIDO CORRIGIDO
 
-
-import sqlite3
-
 def cadastrar_serie(nome_serie, id_escola):
     conexao = sqlite3.connect('sistema_escola.db')
     cursor = conexao.cursor()

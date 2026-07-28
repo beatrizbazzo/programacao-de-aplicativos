@@ -14,8 +14,7 @@ def listar_alunos_e_turma():
         print(f"Aluno: {linha[0]} | Turma: {linha[1]}")
         conexao.close()
 
-
-import sqlite3
+# CODIGO CORRIGIDO
 
 def listar_alunos_e_turma():
     conexao = sqlite3.connect('sistema_escola.db')

@@ -13,8 +13,6 @@ def buscar_professor(id_prof):
 
 # CODIGO CORRIGIDO 
 
-import sqlite3
-
 def buscar_professor(id_prof):
     conexao = sqlite3.connect('sistema_escola.db')
     cursor = conexao.cursor()

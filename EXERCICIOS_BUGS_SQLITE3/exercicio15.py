@@ -18,8 +18,6 @@ def criar_tabela_turma():
 
 # CODIGO CORRIGIDO
 
-import sqlite3
-
 def criar_tabela_turma():
     conexao = sqlite3.connect('sistema_escola.db')
     cursor = conexao.cursor()

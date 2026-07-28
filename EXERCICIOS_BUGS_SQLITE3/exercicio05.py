@@ -19,8 +19,6 @@ def vincular_aluno_turma():
 
 # CODIGO CORRIGIDO
 
-import sqlite3
-
 def vincular_aluno_turma():
     nome = input("Nome do aluno: ")
 

@@ -13,8 +13,6 @@ def atualizar_nome_aluno(id_aluno, novo_nome):
 
 # CODIGO CORRIGIDO
 
-import sqlite3
-
 def atualizar_nome_aluno(id_aluno, novo_nome):
     conexao = sqlite3.connect('sistema_escola.db')
     cursor = conexao.cursor()

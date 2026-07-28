@@ -16,8 +16,6 @@ def inicializar_banco():
 
     # CODIGO CORRIGIDO 
 
-import sqlite3
-
 def inicializar_banco():
     conexao = sqlite3.connect('sistema_escola.db')
     cursor = conexao.cursor()
