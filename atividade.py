@@ -1,75 +1,92 @@
-import sqlite3
+
 
 def eh_par (numero):
     return numero % 2 == 0
 
-def eh_impar (numero):
-    return numero % 5 == 0
+assert eh_par (4) == True
 
-def eh_zero (numero):
-    return numero % 0 == 0
+assert eh_par (5) == False
 
-def eh_negativo (numero):
-    return numero % -3 == 0
+assert eh_par (0) == True
+
+assert eh_par (-3) == False
+    
 
 # 02
-
-def situacao_aluno(media):
-
-    if media >= 8:
-
-        return "Aprovado"
-
-    elif media >= 5:
-
-        return "Recuperação"
-
-    return "Reprovado"
 
 def situacao_aluno(media):
 
     if media >= 6:
 
         return "Aprovado"
-    
-    elif media >= 3:
 
-        return "Recuperacao"
-    
-    return "Reprovado"
-
-def situacao_aluno(media):
-
-    if media >= 4:
-
-        return "Aprovado"
-
-    elif media >= 2:
+    elif media >= 4:
 
         return "Recuperação"
 
     return "Reprovado"
 
-def situacao_aluno(media):
+assert situacao_aluno(8) == "Aprovado"
 
-    if media >= 3:
+assert situacao_aluno (4) != "Aprovado"
 
-        return "Aprovado"
+assert situacao_aluno(6) == "Aprovado"
 
-    elif media >= 1:
+assert situacao_aluno(4) == "Recuperação"
 
-        return "Recuperação"
+assert situacao_aluno(3) == "Reprovado"
 
-    return "Reprovado"
+assert situacao_aluno(5.9) == "Recuperação"
 
-def situacao_aluno(media):
+# 03
 
-    if media >= 5.9:
+def calcular_desconto(preco, percentual):
 
-        return "Aprovado"
+    return preco - (preco * percentual / 100)
 
-    elif media >= 3:
+assert calcular_desconto (100, 0 ) == 100
 
-        return "Recuperação"
+assert calcular_desconto (100, 50) == 50
 
-    return "Reprovado"
+assert calcular_desconto (100, 10) == 90
+
+assert calcular_desconto (100, 100) == 0
+
+assert calcular_desconto (25.50, 10) == 22.95
+ 
+ # 04 
+
+def pode_entrar(idade, acompanhado):
+    if idade >= 18 or acompanhado:
+        return True
+    return False
+
+assert pode_entrar (20, False) is True
+
+assert pode_entrar (14, False) is True
+
+assert pode_entrar(16, False) is False
+
+assert pode_entrar(18, False) is True
+
+assert pode_entrar(17, True) is True
+
+# 05
+
+def calcular_frete(valor_compra):
+    if valor_compra >= 200:
+        return 0
+    elif valor_compra >= 100:
+        return 10
+    return 20
+
+assert calcular_frete (50) == 20 
+
+assert calcular_frete (100) == 10
+
+assert calcular_frete (30) == 10
+
+assert calcular_frete (200) == 0
+
+assert calcular_frete (400) == 0
+

@@ -1,232 +1,188 @@
 import sqlite3
 
 def conectar():
-    try:
+    return sqlite3.connect("filmes.db")
 
-        conexao = sqlite3.connect("filmes.db")
-        conexao.execute("PRAGMA foreign_keys = ON")
-        return conexao
-    except sqlite3.Error as erro:
-        print("erro ao conectar com o banco", erro)
-        return None
-    
 
 def criar_tabelas():
-    try:
+    conexao = conectar()
+    cursor = conexao.cursor()
 
-        conexao = conectar()
-        cursor = conexao.cursor()
-
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS filmes (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                titulo TEXT NOT NULL,
-                genero TEXT NOT NULL
-            )
-        """)
-
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS atores (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome TEXT NOT NULL,
-                filme_id INTEGER NOT NULL,
-                FOREIGN KEY (filme_id) REFERENCES filmes(id)
-            )
-        """)
-
-        conexao.commit()
-        conexao.close()
-
-
-    except sqlite3.Error as erro:
-        print("Erro ao criar as tabela:", erro)
-
-
-def cadastrar_filme():
-    try:
-        titulo = input("Digite o título do filme: ")
-        genero = input("Digite o gênero do filme: ")
-
-        conexao = conectar()
-        cursor = conexao.cursor()
-
-        cursor.execute(
-            "INSERT INTO filmes (titulo, genero) VALUES (?, ?)",
-            (titulo, genero)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS filmes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            titulo TEXT NOT NULL,
+            genero TEXT NOT NULL
         )
+    """)
 
-        conexao.commit()
-        conexao.close()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS atores (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            filme_id INTEGER NOT NULL,
+            FOREIGN KEY (filme_id) REFERENCES filmes(id)
+        )
+    """)
 
-        print("Filme cadastrado com sucesso!")
+    conexao.commit()
+    conexao.close()
+def cadastrar_filme():
+    titulo = input("Digite o título do filme: ")
+    genero = input("Digite o gênero: ")
 
-    except sqlite3.Error as erro:
-        print("Erro ao cadastrar filme:", erro)
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute(
+        "INSERT INTO filmes (titulo, genero) VALUES (?, ?)",
+        (titulo, genero)
+    )
+
+    conexao.commit()
+    conexao.close()
+
+    print("Filme cadastrado!")
 
 
 def listar_filmes():
-    try:
-        conexao = conectar()
-        cursor = conexao.cursor()
+    conexao = conectar()
+    cursor = conexao.cursor()
 
-        cursor.execute("SELECT * FROM filmes")
-        filmes = cursor.fetchall()
+    cursor.execute("SELECT * FROM filmes")
+    filmes = cursor.fetchall()
 
-        conexao.close()
+    conexao.close()
 
-        if len(filmes) == 0:
-            print("Nenhum filme cadastrado.")
-        else:
-            print("\n--- FILMES ---")
-            for filme in filmes:
-                print(f"ID: {filme[0]} | Título: {filme[1]} | Gênero: {filme[2]}")
+    print("\n--- FILMES ---")
 
-    except sqlite3.Error as erro:
-        print("Erro ao listar filmes:", erro)
+    if len(filmes) == 0:
+        print("Nenhum filme cadastrado.")
+    else:
+        for filme in filmes:
+            print(
+                "ID:", filme[0],
+                "| Título:", filme[1],
+                "| Gênero:", filme[2]
+            )
 
 
 def atualizar_filme():
-    try:
-        id_filme = int(input("Digite o ID do filme que deseja atualizar: "))
-        titulo = input("Digite o novo título: ")
-        genero = input("Digite o novo gênero: ")
+    id_filme = int(input("Digite o ID do filme: "))
+    titulo = input("Digite o novo título: ")
+    genero = input("Digite o novo gênero: ")
 
-        conexao = conectar()
-        cursor = conexao.cursor()
+    conexao = conectar()
+    cursor = conexao.cursor()
 
-        cursor.execute(
-            "UPDATE filmes SET titulo = ?, genero = ? WHERE id = ?",
-            (titulo, genero, id_filme)
-        )
+    cursor.execute(
+        "UPDATE filmes SET titulo = ?, genero = ? WHERE id = ?",
+        (titulo, genero, id_filme)
+    )
 
-        conexao.commit()
+    conexao.commit()
 
-        if cursor.rowcount > 0:
-            print("Filme atualizado com sucesso!")
-        else:
-            print("Filme não encontrado.")
+    if cursor.rowcount > 0:
+        print("Filme atualizado!")
+    else:
+        print("Filme não encontrado.")
 
-        conexao.close()
-
-    except ValueError:
-        print("Digite um ID válido.")
-
-    except sqlite3.Error as erro:
-        print("Erro ao atualizar filme:", erro)
-
+    conexao.close()
 
 def excluir_filme():
-    try:
-        id_filme = int(input("Digite o ID do filme que deseja excluir: "))
+    id_filme = int(input("Digite o ID do filme: "))
 
-        conexao = conectar()
-        cursor = conexao.cursor()
+    conexao = conectar()
+    cursor = conexao.cursor()
 
-        cursor.execute("DELETE FROM filmes WHERE id = ?", (id_filme,))
+    cursor.execute(
+        "DELETE FROM filmes WHERE id = ?",
+        (id_filme,)
+    )
 
-        conexao.commit()
+    conexao.commit()
 
-        if cursor.rowcount > 0:
-            print("Filme excluído com sucesso!")
-        else:
-            print("Filme não encontrado.")
+    if cursor.rowcount > 0:
+        print("Filme excluído!")
+    else:
+        print("Filme não encontrado.")
 
-        conexao.close()
-
-    except ValueError:
-        print("Digite um ID válido.")
-
-    except sqlite3.Error as erro:
-        print("Não foi possível excluir o filme:", erro)
-
+    conexao.close()
 
 def cadastrar_ator():
-    try:
-        nome = input("Digite o nome do ator: ")
-        filme_id = int(input("Digite o ID do filme do ator: "))
+    nome = input("Digite o nome do ator: ")
+    filme_id = int(input("Digite o ID do filme: "))
 
-        conexao = conectar()
-        cursor = conexao.cursor()
+    conexao = conectar()
+    cursor = conexao.cursor()
 
-        cursor.execute(
-            "SELECT id FROM filmes WHERE id = ?",
-            (filme_id,)
-        )
+    # Verifica se o filme existe
+    cursor.execute(
+        "SELECT * FROM filmes WHERE id = ?",
+        (filme_id,)
+    )
 
-        filme = cursor.fetchone()
+    filme = cursor.fetchone()
 
-        if filme is None:
-            print("Esse filme não existe.")
-            conexao.close()
-            return
-
+    if filme is None:
+        print("Filme não encontrado.")
+    else:
         cursor.execute(
             "INSERT INTO atores (nome, filme_id) VALUES (?, ?)",
             (nome, filme_id)
         )
 
         conexao.commit()
-        conexao.close()
+        print("Ator cadastrado!")
 
-        print("Ator cadastrado com sucesso!")
-
-    except ValueError:
-        print("Digite um ID válido.")
-
-    except sqlite3.Error as erro:
-        print("Erro ao cadastrar ator:", erro)
-
+    conexao.close()
 
 def listar_atores():
-    try:
-        conexao = conectar()
-        cursor = conexao.cursor()
+    conexao = conectar()
+    cursor = conexao.cursor()
 
-        cursor.execute("""
-            SELECT atores.id, atores.nome, atores.filme_id, filmes.titulo
-            FROM atores
-            INNER JOIN filmes ON atores.filme_id = filmes.id
-        """)
+    cursor.execute("""
+        SELECT atores.id, atores.nome, filmes.titulo
+        FROM atores
+        INNER JOIN filmes
+        ON atores.filme_id = filmes.id
+    """)
 
-        atores = cursor.fetchall()
+    atores = cursor.fetchall()
 
-        conexao.close()
+    conexao.close()
 
-        if len(atores) == 0:
-            print("Nenhum ator cadastrado.")
-        else:
-            print("\n--- ATORES ---")
-            for ator in atores:
-                print(
-                    f"ID: {ator[0]} | Nome: {ator[1]} | "
-                    f"ID do filme: {ator[2]} | Filme: {ator[3]}"
-                )
+    print("\n--- ATORES ---")
 
-    except sqlite3.Error as erro:
-        print("Erro ao listar atores:", erro)
-
+    if len(atores) == 0:
+        print("Nenhum ator cadastrado.")
+    else:
+        for ator in atores:
+            print(
+                "ID:", ator[0],
+                "| Nome:", ator[1],
+                "| Filme:", ator[2]
+            )
 
 def atualizar_ator():
-    try:
-        id_ator = int(input("Digite o ID do ator que deseja atualizar: "))
-        nome = input("Digite o novo nome: ")
-        filme_id = int(input("Digite o novo ID do filme: "))
+    id_ator = int(input("Digite o ID do ator: "))
+    nome = input("Digite o novo nome: ")
+    filme_id = int(input("Digite o novo ID do filme: "))
 
-        conexao = conectar()
-        cursor = conexao.cursor()
+    conexao = conectar()
+    cursor = conexao.cursor()
 
-        cursor.execute(
-            "SELECT id FROM filmes WHERE id = ?",
-            (filme_id,)
-        )
+    # Verifica se o filme existe
+    cursor.execute(
+        "SELECT * FROM filmes WHERE id = ?",
+        (filme_id,)
+    )
 
-        filme = cursor.fetchone()
+    filme = cursor.fetchone()
 
-        if filme is None:
-            print("Esse filme não existe.")
-            conexao.close()
-            return
-
+    if filme is None:
+        print("Filme não encontrado.")
+    else:
         cursor.execute(
             "UPDATE atores SET nome = ?, filme_id = ? WHERE id = ?",
             (nome, filme_id, id_ator)
@@ -235,92 +191,81 @@ def atualizar_ator():
         conexao.commit()
 
         if cursor.rowcount > 0:
-            print("Ator atualizado com sucesso!")
+            print("Ator atualizado!")
         else:
             print("Ator não encontrado.")
 
-        conexao.close()
-
-    except ValueError:
-        print("Digite valores válidos.")
-
-    except sqlite3.Error as erro:
-        print("Erro ao atualizar ator:", erro)
-
+    conexao.close()
 
 def excluir_ator():
-    try:
-        id_ator = int(input("Digite o ID do ator que deseja excluir: "))
+    id_ator = int(input("Digite o ID do ator: "))
 
-        conexao = conectar()
-        cursor = conexao.cursor()
+    conexao = conectar()
+    cursor = conexao.cursor()
 
-        cursor.execute(
-            "DELETE FROM atores WHERE id = ?",
-            (id_ator,)
-        )
+    cursor.execute(
+        "DELETE FROM atores WHERE id = ?",
+        (id_ator,)
+    )
 
-        conexao.commit()
+    conexao.commit()
 
-        if cursor.rowcount > 0:
-            print("Ator excluído com sucesso!")
-        else:
-            print("Ator não encontrado.")
+    if cursor.rowcount > 0:
+        print("Ator excluído!")
+    else:
+        print("Ator não encontrado.")
 
-        conexao.close()
-
-    except ValueError:
-        print("Digite um ID válido.")
-
-    except sqlite3.Error as erro:
-        print("Erro ao excluir ator:", erro)
-
+    conexao.close()
 
 def menu():
-    try:
-        criar_tabelas ()
 
-        while True: 
-            print("\n===== SISTEMA DE FILMES =====")
-            print("1 - cadasrar filme")
-            print("2 - listar filme")
-            print("3 - atualizar filme ")
-            print("4 - excluir filme")
-            print("5 - cadastrar ator")
-            print("6 - listar ator")
-            print("7 - atualizar ator")
-            print("8 - excluir ator")
-            print("9 - sair")
+    criar_tabelas()
 
-            opcao = input("escolha uma opcao:")
+    while True:
 
-            if opcao  == "1":
-                cadastrar_filme()
-            elif opcao == "2":
-                listar_filmes()  
-            elif opcao == "3": 
-                atualizar_filme()
-            elif opcao == "4":
-                excluir_filme()
-            elif opcao == "5":
-                cadastrar_ator()
-            elif opcao == "6":
-                listar_atores()
-            elif opcao == "7":
-                atualizar_ator()
-            elif opcao == "8":
-                excluir_ator()
-            elif opcao == "9":
-                print("programa encerrado.")
-                break
+        print("\n===== SISTEMA DE FILMES =====")
+        print("1 - Cadastrar filme")
+        print("2 - Listar filmes")
+        print("3 - Atualizar filme")
+        print("4 - Excluir filme")
+        print("5 - Cadastrar ator")
+        print("6 - Listar atores")
+        print("7 - Atualizar ator")
+        print("8 - Excluir ator")
+        print("9 - Sair")
 
-            else:
-                print("opcao invalida.")
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            cadastrar_filme()
+
+        elif opcao == "2":
+            listar_filmes()
+
+        elif opcao == "3":
+            atualizar_filme()
+
+        elif opcao == "4":
+            excluir_filme()
+
+        elif opcao == "5":
+            cadastrar_ator()
+
+        elif opcao == "6":
+            listar_atores()
+
+        elif opcao == "7":
+            atualizar_ator()
+
+        elif opcao == "8":
+            excluir_ator()
+
+        elif opcao == "9":
+            print("Programa encerrado!")
+            break
+
+        else:
+            print("Opção inválida!")
 
 
-    except Exception as erro:
-        print("ocorreu um erro no programa:", erro)
-
-
-
-menu()       
+menu()
