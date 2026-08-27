@@ -1,6 +1,9 @@
+import sqlite3
+
+from filmes import cadastrar_filme, listar_filmes, atualizar_filme, excluir_filme
+from atores import cadastrar_atores, listar_atores, atualizar_atores, excluir_atores
+
 def menu():
-    
-    criar_tabelas()
 
     while True:
 
@@ -30,16 +33,16 @@ def menu():
             excluir_filme()
 
         elif opcao == "5":
-            cadastrar_ator()
+            cadastrar_atores()
 
         elif opcao == "6":
             listar_atores()
 
         elif opcao == "7":
-            atualizar_ator()
+            atualizar_atores()
 
         elif opcao == "8":
-            excluir_ator()
+            excluir_atores()
 
         elif opcao == "9":
             print("Programa encerrado!")

@@ -22,7 +22,7 @@ def criar_tabela():
     conexao.close()
 
 
-def cadastrar_ator():
+def cadastrar_atores():
     nome = input("Digite o nome do ator: ")
     filme_id = int(input("Digite o ID do filme: "))
 
@@ -78,7 +78,7 @@ def listar_atores():
             )
 
 
-def atualizar_ator():
+def atualizar_atores():
     id_ator = int(input("Digite o ID do ator: "))
     nome = input("Digite o novo nome: ")
     filme_id = int(input("Digite o novo ID do filme: "))
@@ -111,7 +111,7 @@ def atualizar_ator():
     conexao.close()
 
 
-def excluir_ator():
+def excluir_atores():
     id_ator = int(input("Digite o ID do ator: "))
 
     conexao = conectar()
