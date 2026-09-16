@@ -1,0 +1,27 @@
+import sqlite3
+def buscar_palavra(palavras, palavra):
+    inicio = 0
+    fim = len(palavras) - 1
+
+    while inicio <= fim:
+        meio = (inicio + fim) // 2
+
+        if palavras[meio] == palavra:
+            return True
+
+        if palavra > palavras[meio]:
+            inicio = meio + 1
+        else:
+            fim = meio - 1
+
+    return False
+
+
+palavras = ["banana", "casa", "carro", "computador", "escola", "livro"]
+
+palavra = input("Digite uma palavra: ").lower()
+
+if buscar_palavra(palavras, palavra):
+    print("Palavra encontrada!")
+else:
+    print("Palavra não encontrada.")

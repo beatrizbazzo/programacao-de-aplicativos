@@ -1,0 +1,55 @@
+import sqlite3
+def busca_sequencial(vetor, numero):
+    comparacoes = 0
+
+    for i in range(len(vetor)):
+        comparacoes += 1
+
+        if vetor[i] == numero:
+            return i, comparacoes
+
+    return -1, comparacoes
+
+
+def busca_binaria(vetor, numero):
+    inicio = 0
+    fim = len(vetor) - 1
+    comparacoes = 0
+
+    while inicio <= fim:
+        meio = (inicio + fim) // 2
+
+        comparacoes += 1
+
+        if vetor[meio] == numero:
+            return meio, comparacoes
+
+        if numero > vetor[meio]:
+            inicio = meio + 1
+        else:
+            fim = meio - 1
+
+    return -1, comparacoes
+
+
+# Vetor com 100 elementos
+vetor = list(range(1, 101))
+
+# Valores que serão procurados
+valores = [10, 50, 100]
+
+for numero in valores:
+
+    posicao_sequencial, comp_sequencial = busca_sequencial(vetor, numero)
+
+    posicao_binaria, comp_binaria = busca_binaria(vetor, numero)
+
+    print("\nNúmero procurado:", numero)
+
+    print("Busca sequencial:")
+    print("Posição:", posicao_sequencial)
+    print("Comparações:", comp_sequencial)
+
+    print("Busca binária:")
+    print("Posição:", posicao_binaria)
+    print("Comparações:", comp_binaria)

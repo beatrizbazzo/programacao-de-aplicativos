@@ -1,0 +1,26 @@
+import sqlite3
+def primeira_ultima(vetor, numero):
+    primeira = -1
+    ultima = -1
+
+    for i in range(len(vetor)):
+        if vetor[i] == numero:
+            if primeira == -1:
+                primeira = i
+
+            ultima = i
+
+    return primeira, ultima
+
+
+vetor = [5, 2, 8, 2, 10, 2, 7, 2]
+
+numero = int(input("Digite um número: "))
+
+primeira, ultima = primeira_ultima(vetor, numero)
+
+if primeira != -1:
+    print("Primeira posição:", primeira)
+    print("Última posição:", ultima)
+else:
+    print("Número não encontrado.")

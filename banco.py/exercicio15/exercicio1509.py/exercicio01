@@ -1,0 +1,19 @@
+import sqlite3
+def busca_sequencial(vetor, numero):
+    for i in range(len(vetor)):
+        if vetor[i] == numero:
+            return i
+
+    return -1
+
+
+vetor = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+numero = int(input("Digite um número: "))
+
+posicao = busca_sequencial(vetor, numero)
+
+if posicao != -1:
+    print("Número encontrado no índice:", posicao)
+else:
+    print("Número não encontrado.")

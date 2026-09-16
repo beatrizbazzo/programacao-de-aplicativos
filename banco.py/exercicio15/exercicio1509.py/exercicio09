@@ -1,0 +1,27 @@
+import sqlite3
+def encontrar_posicao(vetor, numero):
+    inicio = 0
+    fim = len(vetor)
+
+    while inicio < fim:
+        meio = (inicio + fim) // 2
+
+        if vetor[meio] < numero:
+            inicio = meio + 1
+        else:
+            fim = meio
+
+    return inicio
+
+
+vetor = [10, 20, 30, 40, 50, 60]
+
+numero = int(input("Digite o novo número: "))
+
+posicao = encontrar_posicao(vetor, numero)
+
+print("O número deve ser inserido no índice:", posicao)
+
+vetor.insert(posicao, numero)
+
+print("Lista depois da inserção:", vetor)

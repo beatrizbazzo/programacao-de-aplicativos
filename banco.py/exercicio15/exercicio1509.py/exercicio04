@@ -1,0 +1,17 @@
+import sqlite3
+def buscar_aluno(alunos, nome):
+    for aluno in alunos:
+        if aluno == nome:
+            return True
+
+    return False
+
+
+alunos = ["Ana", "Carlos", "João", "Maria", "Pedro"]
+
+nome = input("Digite o nome do aluno: ")
+
+if buscar_aluno(alunos, nome):
+    print("Aluno encontrado!")
+else:
+    print("Aluno não encontrado.")
